@@ -125,7 +125,7 @@ const TableElementComponent: React.FC<TableElementProps> = ({
 
   return (
     <div
-      className={`absolute ${isSelected ? 'outline outline-2 outline-blue-500' : ''}`}
+      className={`absolute ${isSelected ? 'outline-2 outline-blue-500' : ''}`}
       style={{
         left: position.x,
         top: position.y,

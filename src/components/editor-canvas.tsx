@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd';
 import { EditorElement } from '@/types/editor.types';
 import TextElementComponent from './elements/TextElement';
 import TableElementComponent from './elements/TableElement';
-import { toast} from 'sonner';
+import { toast } from 'sonner';
 
 interface EditorCanvasProps {
   elements: EditorElement[];
@@ -14,12 +14,13 @@ interface EditorCanvasProps {
   selectedElementId: string | null;
 }
 
-const EditorCanvas: React.FC<EditorCanvasProps> = ({
-  elements,
-  onElementsChange,
-  onElementSelect,
-  selectedElementId,
-}) => {
+
+const EditorCanvas = React.forwardRef<HTMLDivElement, EditorCanvasProps>(({ 
+  elements, 
+  onElementsChange, 
+  onElementSelect, 
+  selectedElementId 
+}, ref) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
@@ -49,20 +50,20 @@ const EditorCanvas: React.FC<EditorCanvasProps> = ({
     position: { x: number; y: number }
   ) => {
     const { fieldPath, fieldValue } = item;
-    
+
     let newElement: EditorElement;
-    
+
     // If it's an array, create a table element
     if (Array.isArray(fieldValue)) {
       // Create columns from first item if available
       const columns = fieldValue.length > 0 && typeof fieldValue[0] === 'object'
         ? Object.keys(fieldValue[0]).map(key => ({
-            field: key,
-            header: key,
-            width: 100,
-          }))
+          field: key,
+          header: key,
+          width: 100,
+        }))
         : [{ field: '0', header: 'Value', width: 200 }];
-      
+
       newElement = {
         id: `element-${Date.now()}`,
         type: 'table',
@@ -79,7 +80,7 @@ const EditorCanvas: React.FC<EditorCanvasProps> = ({
           backgroundColor: '#ffffff',
         },
       };
-      
+
       toast('Tabla creada');
     } else {
       // Create a text element for scalar values
@@ -97,7 +98,7 @@ const EditorCanvas: React.FC<EditorCanvasProps> = ({
         },
       };
     }
-    
+
     const updatedElements = [...elements, newElement];
     onElementsChange(updatedElements);
     onElementSelect(newElement);
@@ -148,9 +149,8 @@ const EditorCanvas: React.FC<EditorCanvasProps> = ({
           drop(node);
           if (node) canvasRef.current = node;
         }}
-        className={`relative w-full min-h-[1123px] bg-white mx-auto shadow-lg ${
-          isOver ? 'ring-2 ring-blue-500' : ''
-        }`}
+        className={`relative w-full min-h-[1123px] bg-white mx-auto shadow-lg ${isOver ? 'ring-2 ring-blue-500' : ''
+          }`}
         style={{
           width: '794px', // A4 width in pixels at 96 DPI
           height: '1123px', // A4 height in pixels at 96 DPI
@@ -162,7 +162,7 @@ const EditorCanvas: React.FC<EditorCanvasProps> = ({
       >
         {elements.map((element) => {
           const isSelected = element.id === selectedElementId;
-          
+
           switch (element.type) {
             case 'text':
               return (
@@ -193,6 +193,6 @@ const EditorCanvas: React.FC<EditorCanvasProps> = ({
       </div>
     </div>
   );
-};
+});
 
 export default EditorCanvas;

@@ -79,7 +79,7 @@ const JsonFieldExplorer: React.FC<JsonFieldExplorerProps> = ({ jsonData }) => {
   };
 
   return (
-    <Card className="w-64 max-h-screen overflow-auto">
+    <Card className="w-80 max-h-screen overflow-auto">
       <CardContent className="p-4">
         <Label htmlFor="search-fields">Buscar campos</Label>
         <Input
@@ -128,7 +128,7 @@ const JsonLeafField: React.FC<JsonLeafFieldProps> = ({ path, value, level }) => 
 
   return (
     <div 
-      ref={drag}
+      ref={drag as unknown as React.Ref<HTMLDivElement>} //! Check this line later
       style={{ marginLeft: `${level * 8}px`, opacity: isDragging ? 0.5 : 1 }}
       className="flex items-center cursor-move hover:bg-gray-100 py-1 px-2 rounded"
     >

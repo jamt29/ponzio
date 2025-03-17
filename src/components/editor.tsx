@@ -175,7 +175,7 @@ return (
         {/* Área principal */}
         <div className="flex flex-1 overflow-hidden">
           {/* Panel izquierdo */}
-          <div className="w-64 border-r bg-gray-50 flex flex-col overflow-hidden">
+          <div className="w-80 border-r bg-gray-50 flex flex-col overflow-hidden">
             {jsonData ? (
               <JsonFieldExplorer jsonData={jsonData} />
             ) : (
